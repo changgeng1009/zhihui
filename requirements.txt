@@ -1,0 +1,33 @@
+# 智慧职教统一工具层 —— 依赖清单
+#
+# 统一层自身（zhijiao/）只用标准库。下面这些是**上游 Adapter 加载上游模块时**需要的，
+# 也就是整个项目实际运行所需的全部第三方包。
+#
+# 项目约定：全部装在**项目内** `.venv/`，不污染本机环境。
+#
+#   python -m venv .venv
+#   MIRROR=https://pypi.tuna.tsinghua.edu.cn/simple
+#   .venv/Scripts/python.exe -m pip install -i $MIRROR -r requirements.txt
+#   .venv/Scripts/python.exe -m playwright install chromium   # 705MB
+#
+# 注意：playwright 默认把 Chromium 下到 %USERPROFILE%\AppData\Local\ms-playwright。
+# 本项目要求把它整体移到项目内 `browsers/`；统一层会用 PLAYWRIGHT_BROWSERS_PATH
+# 指向那里（见 zhijiao/config.py 的 Settings.apply_env），所以项目是自包含的。
+# 详见 README「自包含运行时」一节。
+
+# —— API 路线（必需，约 40MB）——
+requests>=2.28.0          # 所有上游的网络请求
+pycryptodome>=3.18.0      # SPOC 刷课心跳 AES-128-ECB；资源库学习记录加密
+lxml>=5.0.0               # mooc-work-answer 解析试卷 HTML
+
+# —— 账密自动登录（本项目默认装齐，约 120MB + Chromium 705MB）——
+# ICVE_Toolkit 的 slider_auto.py：账密 → 过阿里云滑块 → SSO Token
+playwright>=1.40.0        # 驱动 Chromium（内核需 `playwright install chromium`）
+opencv-python>=4.8.0      # 滑块缺口识别（白帽变换 + Canny 边缘）
+numpy>=1.24.0             # 图像处理数值基础
+scipy>=1.10.0             # 拖距映射在线最小二乘重拟合
+pillow>=10.0.0            # 图像编解码
+
+# 上面这 5 个不装也能跑：统一层可以只用你提供的 SSO Token 走 API。
+# 届时 `zhijiao.login(channel="password")` 抛 BackendUnavailable（带 pip 提示），
+# 但 `zhijiao.login(channel="browser")`（人工浏览器回调，只需 lxml）仍然可用。

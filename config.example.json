@@ -1,0 +1,29 @@
+{
+  "_说明": "复制为 config.json 后按需修改。优先级：环境变量(ZJ_*) > config.json > 内置默认值。",
+
+  "upstream_root": "upstreams",
+  "state_dir": "state",
+  "log_dir": "state/logs",
+  "_browsers_dir": "项目内 Chromium 内核目录。统一层会据此设置 PLAYWRIGHT_BROWSERS_PATH，让 playwright 不往用户目录找浏览器。",
+  "browsers_dir": "browsers",
+  "log_level": "INFO",
+  "log_jsonl": true,
+  "request_timeout": 10,
+  "allow_fallback": true,
+  "question_bank_dir": "",
+
+  "_upstream_dirs": "上游目录名。改名上游目录时在这里同步，Adapter 代码无需改动。",
+  "upstream_dirs": {
+    "icve_toolkit": "ICVE_Toolkit",
+    "zjy_toolkit": "ZJY-Toolkit",
+    "mooc_work_answer": "mooc-work-answer",
+    "ocsjs": "ocsjs"
+  },
+
+  "_ocs": "浏览器兜底（OCS）。enabled=false 可彻底关闭兜底链路。script_path 指向已 pnpm build 的 userscript。",
+  "ocs": {
+    "enabled": true,
+    "script_path": "",
+    "script_url": "https://docs.ocsjs.com/"
+  }
+}

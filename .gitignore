@@ -1,0 +1,55 @@
+# ---- 运行期数据（凭据 / 日志 / 缓存，绝不提交）----
+state/
+config.json
+
+# ---- 项目内自带运行时（体积大，按需重建，不进版本库）----
+# Chromium 内核 705MB：由 `python -m playwright install chromium` 生成，
+# 统一层通过 PLAYWRIGHT_BROWSERS_PATH 指向它（Settings.apply_env）
+browsers/
+# Python 依赖：按 requirements.txt 重建
+.venv/
+venv/
+
+# ---- 上游只读区：不进版本库 ----
+# 1) 版权：mooc-work-answer / ZJY-Toolkit 无 LICENSE（保留所有权利），
+#    ICVE_Toolkit 为 PolyForm Noncommercial，再分发有法律风险；
+#    使用者按 README「快速开始」自行 clone（tests/upstream_manifest.json 提供完整性基线）。
+# 2) 它们是 git clone 的原样快照，自带 .git，不适合作为子目录提交。
+upstreams/
+
+# ---- 上游 import 副作用产物 ----
+# mooc-work-answer 的 MoocMain/log.py 在 import 时于 cwd 建日志文件（上游硬编码 "./"），
+# 统一层的加载器会把 cwd 切到 state/ 以接住它；这两条是兜底忽略。
+mooc-work-answer-log_*.log
+*.log
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- 编辑器 / 系统 ----
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ---- 上游构建产物（OCS 若执行 pnpm build）----
+upstreams/ocsjs/node_modules/
+upstreams/ocsjs/packages/*/node_modules/
+upstreams/ocsjs/dist/
+upstreams/ocsjs/lib/
+upstreams/*/dist/
+upstreams/*/build/
+upstreams/ocsjs/pnpm-lock.yaml
+
+# ---- 题库等个人数据 ----
+question_bank/
+accounts.json
+slider_calib.json
+
+# ---- WorkBuddy 工作记忆（含用户个人信息/本地路径，不入公开仓库）----
+.workbuddy/
